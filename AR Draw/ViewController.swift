@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SceneKit
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
@@ -28,6 +29,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     sceneView.delegate = self
 
     self.sceneView.session.run(config)
+
+    let v1 = SCNVector3(0.1, 0, 0)
+    let v2 = SCNVector3(0.1, 1, 0.1)
+
+    let shape = SCNNode(geometry: getLineSegment(vector: v1, toVector: v2))
+    shape.position = SCNVector3(0, 0, 0)
+    shape.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+    self.sceneView.scene.rootNode.addChildNode(shape)
     // Do any additional setup after loading the view, typically from a nib.
   }
 
@@ -75,7 +84,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       if self.drawBtn.isHighlighted {
         if let previousPoint = self.previousPoint {
           // We have successfully unwrapped the value
-          let line = getLineSegment(fromPoint: previousPoint, toPoint: currentCameraPosition)
+          let line = getLineSegment(vector: previousPoint, toVector: currentCameraPosition)
           let shape = SCNNode(geometry: line)
           shape.geometry?.firstMaterial?.diffuse.contents = UIColor.red
           shape.position = SCNVector3Zero
@@ -98,12 +107,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   }
 }
 
-func getLineSegment(fromPoint: SCNVector3, toPoint: SCNVector3) -> SCNGeometry {
-  let indices: [Int] = [0, 1]
-  let source = SCNGeometrySource(vertices: [fromPoint, toPoint])
+//func getLineSegment(fromPoint: SCNVector3, toPoint: SCNVector3) -> SCNGeometry {
+//  let indices: [Int] = [0, 1]
+//  let source = SCNGeometrySource(vertices: [fromPoint, toPoint])
+//  let element = SCNGeometryElement(indices: indices, primitiveType: .line)
+//
+//  return SCNGeometry(sources: [source], elements: [element])
+//}
+
+func getLineSegment(vector vector1: SCNVector3, toVector vector2: SCNVector3) -> SCNGeometry {
+
+  let indices: [Int32] = [0, 1]
+
+  let source = SCNGeometrySource(vertices: [vector1, vector2])
   let element = SCNGeometryElement(indices: indices, primitiveType: .line)
 
   return SCNGeometry(sources: [source], elements: [element])
+
 }
 
 func +(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
