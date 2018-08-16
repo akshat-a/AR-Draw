@@ -9,7 +9,7 @@
 import UIKit
 import ARKit
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, UIGestureRecognizerDelegate {
 
   @IBOutlet weak var sceneView: ARSCNView!
 
@@ -19,6 +19,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   @IBOutlet weak var eraseBtn: UIButton!
   
   var previousPoint: SCNVector3?
+
+  var eraseRecognizer: EraseGesture!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -32,8 +34,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     self.sceneView.session.run(config)
 
-    let tap = UITapGestureRecognizer(target: self, action: #selector(erase))
-    self.sceneView.addGestureRecognizer(tap)
+    eraseRecognizer = EraseGesture(target: self, action: #selector(erase(sender:)))
+    self.sceneView.addGestureRecognizer(eraseRecognizer)
 
   }
   
@@ -84,19 +86,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   @IBAction func eraseBtnPressed(_ sender: Any) {
     eraseBtn.isSelected = !eraseBtn.isSelected
   }
-  
-  @objc func erase(sender: UITapGestureRecognizer) {
-    if eraseBtn.isSelected {
-      print("RecognisingTap")
-      let scene = sender.view as! SCNView
-      let location = sender.location(in: scene)
-      let hitTest = scene.hitTest(location)
 
-      if !hitTest.isEmpty {
-        print("Hit test detected")
-        let result = hitTest.first
-        let node = result?.node
-        node?.removeFromParentNode()
+  @objc func erase(sender: EraseGesture) {
+    if eraseBtn.isSelected {
+      if sender.state == .began || sender.state == .changed {
+        let scene = sender.view as! SCNView
+        let location = sender.location(in: scene)
+        let hitTest = scene.hitTest(location)
+
+        if !hitTest.isEmpty {
+          let result = hitTest.first
+          let node = result?.node
+          node?.removeFromParentNode()
+        }
       }
     }
   }
