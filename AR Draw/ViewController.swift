@@ -7,10 +7,7 @@
 //
 
 import UIKit
-import SceneKit
 import ARKit
-import OpenGLES
-import GLKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
@@ -19,43 +16,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
   let config = ARWorldTrackingConfiguration()
 
   @IBOutlet weak var drawBtn: UIButton!
-
+  @IBOutlet weak var eraseBtn: UIButton!
+  
   var previousPoint: SCNVector3?
-  var previousLocation: SCNVector3?
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+    drawBtn.layer.cornerRadius = 43  // To make the button round
+    eraseBtn.isSelected = false
+    sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin]
 
     sceneView.showsStatistics = true
     sceneView.delegate = self
 
     self.sceneView.session.run(config)
 
-//    let v1 = SCNVector3(0.1, 0, 0)
-//    let v2 = SCNVector3(0.1, 1, 0.1)
-//
-//    let shape = SCNNode(geometry: getLineSegment(vector: v1, toVector: v2))
-//    shape.position = SCNVector3(0, 0, 0)
-//    shape.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-//    self.sceneView.scene.rootNode.addChildNode(shape)
-    // Do any additional setup after loading the view, typically from a nib.
-  }
+    let tap = UITapGestureRecognizer(target: self, action: #selector(erase))
+    self.sceneView.addGestureRecognizer(tap)
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
-
   
-
   func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
-    glLineWidth(10)
     guard let pointOfView = sceneView.pointOfView else {
       return
     }
-
     let transform = pointOfView.transform
     // The transform table stores the orientation info in the 3rd column
     // Eg: m31 refers to col 3 row 1
@@ -67,17 +52,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // We get the location by combining the orientation and the location
     let currentCameraPosition = orientation + currentLocation
 
-
     DispatchQueue.main.async {
 
       if self.drawBtn.isHighlighted {
         if let previousPoint = self.previousPoint {
-          // We have successfully unwrapped the value
-//          let line = getLineSegment(from: previousPoint, to: currentCameraPosition)
-//          let shape = SCNNode(geometry: line)
-//          shape.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-//          shape.position = SCNVector3Zero
-//          self.sceneView.scene.rootNode.addChildNode(shape)
           let line = SCNNode()
           let shape = line.drawLineBetweenTwoLines(from: previousPoint, to: currentCameraPosition, radius: 0.01, color: UIColor.red)
           self.sceneView.scene.rootNode.addChildNode(shape)
@@ -93,11 +71,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
           node.removeFromParentNode()
         }
       })
-
       self.sceneView.scene.rootNode.addChildNode(pointer)
-
       self.previousPoint = currentCameraPosition
-      self.previousLocation = currentLocation
     }
   }
 
@@ -106,19 +81,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
       node.removeFromParentNode()
     }
   }
+  @IBAction func eraseBtnPressed(_ sender: Any) {
+    eraseBtn.isSelected = !eraseBtn.isSelected
+  }
+  
+  @objc func erase(sender: UITapGestureRecognizer) {
+    if eraseBtn.isSelected {
+      print("RecognisingTap")
+      let scene = sender.view as! SCNView
+      let location = sender.location(in: scene)
+      let hitTest = scene.hitTest(location)
 
-}
-
-func getLineSegment(from startPoint: SCNVector3, to endPoint: SCNVector3) -> SCNGeometry {
-
-  glLineWidth(10)
-  let indices: [Int32] = [0, 1]
-
-  let source = SCNGeometrySource(vertices: [startPoint, endPoint])
-  let element = SCNGeometryElement(indices: indices, primitiveType: .line)
-
-  return SCNGeometry(sources: [source], elements: [element])
-
+      if !hitTest.isEmpty {
+        print("Hit test detected")
+        let result = hitTest.first
+        let node = result?.node
+        node?.removeFromParentNode()
+      }
+    }
+  }
 }
 
 // Extension Credit: Windchill @ https://stackoverflow.com/questions/35002232/draw-scenekit-object-between-two-points
@@ -136,10 +117,8 @@ extension SCNNode {
       self.geometry = sphere
       self.position = startPoint
       return self
-
     }
 
-    print(l)
     let cyl = SCNCylinder(radius: radius, height: l)
     cyl.firstMaterial?.diffuse.contents = color
 
