@@ -26,7 +26,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="86" id="EZb-HZ-NbW"/>
-                                    <constraint firstAttribute="width" constant="86" id="Ltg-ik-2xJ"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="86" id="Ltg-ik-2xJ"/>
                                 </constraints>
                                 <state key="normal" title="Draw"/>
                             </button>
@@ -54,6 +54,24 @@
                                     <action selector="eraseBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AuE-G6-yBk"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l10-Li-Wch" userLabel="ColorPalette" customClass="ColorPickerView" customModule="AR_Draw" customModuleProvider="target">
+                                <rect key="frame" x="43" y="116" width="287" height="408"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgQ-bw-MWa" userLabel="ColorPicker">
+                                <rect key="frame" x="325" y="313.5" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="k2e-m7-RZx"/>
+                                    <constraint firstAttribute="height" constant="40" id="pf0-6l-Lad"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="colorPickBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lcR-Og-qOo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -63,7 +81,9 @@
                             <constraint firstItem="RcB-3m-DnC" firstAttribute="centerX" secondItem="BAh-Og-nWq" secondAttribute="centerX" id="G2F-6j-guM"/>
                             <constraint firstItem="7sA-fs-Fnb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="WRM-8J-Mt5"/>
                             <constraint firstItem="7sA-fs-Fnb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="YEc-xT-V7N"/>
+                            <constraint firstItem="kgQ-bw-MWa" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="YJg-ex-KRg"/>
                             <constraint firstItem="BAh-Og-nWq" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="jQg-9K-Gro"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kgQ-bw-MWa" secondAttribute="trailing" constant="10" id="pik-ch-6Kx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="RcB-3m-DnC" secondAttribute="bottom" constant="30" id="prP-UN-6Ci"/>
                             <constraint firstItem="BAh-Og-nWq" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="pui-Jk-CBL"/>
                             <constraint firstItem="BAh-Og-nWq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qYX-ja-qN7"/>
@@ -71,6 +91,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="colorPickBtn" destination="kgQ-bw-MWa" id="q0v-8k-KZC"/>
+                        <outlet property="colorPicker" destination="l10-Li-Wch" id="Oh8-77-zhE"/>
                         <outlet property="drawBtn" destination="RcB-3m-DnC" id="Jv4-Jx-VRO"/>
                         <outlet property="eraseBtn" destination="7sA-fs-Fnb" id="xD9-7L-aMJ"/>
                         <outlet property="sceneView" destination="BAh-Og-nWq" id="LYT-uu-TfB"/>

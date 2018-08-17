@@ -11,8 +11,6 @@ import UIKit.UIGestureRecognizerSubclass
 
 class EraseGesture: UIGestureRecognizer {
   
-  //var location: CGPoint?
-
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
     if touches.count != 1 {
       state = .failed

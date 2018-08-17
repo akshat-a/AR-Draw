@@ -15,6 +15,8 @@
 		C310A31A2101BF0B00718D3E /* AR_DrawTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C310A3192101BF0B00718D3E /* AR_DrawTests.swift */; };
 		C310A3252101BF0B00718D3E /* AR_DrawUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C310A3242101BF0B00718D3E /* AR_DrawUITests.swift */; };
 		C310A4822125572100718D3E /* EraseGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C310A4812125572100718D3E /* EraseGesture.swift */; };
+		C310A48621255E9700718D3E /* DrawModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C310A48521255E9700718D3E /* DrawModel.swift */; };
+		C310A48821256D3700718D3E /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C310A48721256D3700718D3E /* ColorPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		C310A3242101BF0B00718D3E /* AR_DrawUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AR_DrawUITests.swift; sourceTree = "<group>"; };
 		C310A3262101BF0B00718D3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C310A4812125572100718D3E /* EraseGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EraseGesture.swift; sourceTree = "<group>"; };
+		C310A48521255E9700718D3E /* DrawModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawModel.swift; sourceTree = "<group>"; };
+		C310A48721256D3700718D3E /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				C310A30D2101BF0B00718D3E /* LaunchScreen.storyboard */,
 				C310A3102101BF0B00718D3E /* Info.plist */,
 				C310A4812125572100718D3E /* EraseGesture.swift */,
+				C310A48521255E9700718D3E /* DrawModel.swift */,
+				C310A48721256D3700718D3E /* ColorPicker.swift */,
 			);
 			path = "AR Draw";
 			sourceTree = "<group>";
@@ -263,6 +269,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C310A4822125572100718D3E /* EraseGesture.swift in Sources */,
+				C310A48621255E9700718D3E /* DrawModel.swift in Sources */,
+				C310A48821256D3700718D3E /* ColorPicker.swift in Sources */,
 				C310A3072101BF0B00718D3E /* ViewController.swift in Sources */,
 				C310A3052101BF0B00718D3E /* AppDelegate.swift in Sources */,
 			);
